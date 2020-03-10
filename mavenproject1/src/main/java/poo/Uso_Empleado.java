@@ -8,7 +8,7 @@ package poo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.GregorianCalendar; 
 
 /**
  *
@@ -26,17 +26,18 @@ public class Uso_Empleado {
         Empleado empleado2 = new Empleado("Andres Abarca", 11000, 2011, 2, 22);
         Empleado empleado3 = new Empleado("Javiera Abarca", 13000, 2017, 5, 6);
         empleado1.subirSueldo(6);
-        Empleado[] empleadoss = new Empleado[3];
+        Empleado[] empleadoss = new Empleado[4];
         empleadoss[0] = new Empleado("Cesar Abarca", 16000, 2010, 8, 25);
         empleadoss[1] = new Empleado("Andres Abarca", 1100, 2011, 2, 22);
         empleadoss[2] = new Empleado("Javiera Abarca", 13000, 2017, 5, 6);
-
-        for (int i = 0; i < empleadoss.length; i++) { 
+        empleadoss[3] = new Jefatura("cesar", 250000, 2013, 1, 11);
+        Jefatura jefe_finanzas = (Jefatura) empleadoss[3];
+        for (int i = 0; i < empleadoss.length; i++) {
             empleadoss[i].subirSueldo(5);
         }
-        
+
         Arrays.sort(empleadoss);
-        
+
         for (int i = 0; i < empleadoss.length; i++) {
             System.out.println("Nombre: " + empleadoss[i].getNombre() + " Sueldo: $" + empleadoss[i].getSueldo() + " Fecha de Alta: " + empleadoss[i].getAltaContrato());
         }
@@ -47,11 +48,8 @@ public class Uso_Empleado {
 
 }
 
-class Empleado implements Comparable{
-    
-    
-    
-    
+class Empleado implements Comparable {
+
     private String nombre;
     private double sueldo;
     private int ano;
@@ -123,35 +121,42 @@ class Empleado implements Comparable{
         double aumento = sueldo * porcentaje / 100;
         sueldo += aumento;
     }
-    
-    public int compareTo(Object miObjeto){
-        Empleado otroEmpleado=(Empleado)miObjeto;
-        if (this.sueldo<otroEmpleado.sueldo) {
+
+    @Override
+    public int compareTo(Object miObjeto) {
+        Empleado otroEmpleado = (Empleado) miObjeto;
+        if (this.sueldo < otroEmpleado.sueldo) {
             return -1;
         }
-        
-        if (this.sueldo>otroEmpleado.sueldo) {
+
+        if (this.sueldo > otroEmpleado.sueldo) {
             return 1;
         }
-        
+
         return 0;
     }
+}
 
-    class Jefatura extends Empleado {
-        private double incentivo;
-        public Jefatura(String nombre, double sueldo, int ano, int mes, int dia) {
-            super(nombre, sueldo, ano, mes, dia);
-        }
+class Jefatura extends Empleado implements jefes {
 
-        public void establecerIncentivo(double i) {
-            incentivo = i;
-        }
+    private double incentivo;
 
-        public double sueldo() {
-            double sueldoJefe =super.getSueldo();
-            return sueldoJefe + incentivo;
-        }
-       
+    public Jefatura(String nombre, double sueldo, int ano, int mes, int dia) {
+        super(nombre, sueldo, ano, mes, dia);
+    }
+
+    public void establecerIncentivo(double i) {
+        incentivo = i;
+    }
+
+    public double sueldo() {
+        double sueldoJefe = super.getSueldo();
+        return sueldoJefe + incentivo;
+    }
+
+    @Override
+    public String tomarDecision(String decision) {
+        return "Un mienbro de jefatura tomo la decision de:";
     }
 
 }
